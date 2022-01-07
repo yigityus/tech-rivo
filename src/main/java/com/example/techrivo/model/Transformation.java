@@ -11,4 +11,5 @@ import java.util.List;
 public class Transformation {
     private String name;
     private List<@Pattern(regexp = "[a-zA-Z]+") String> items;
+    private Long timestamp;
 }
