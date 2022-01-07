@@ -53,9 +53,9 @@ class TechRivoApplicationTests {
         HttpHeaders headers = new HttpHeaders();
         headers.add(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON.toString());
         HttpEntity entity = new HttpEntity(transformation, headers);
-        ResponseEntity<Transformation> responseEntity = restTemplate
+        ResponseEntity<String> responseEntity = restTemplate
                 .exchange("http://localhost:" + port + "/transformation",
-                        HttpMethod.POST, entity, Transformation.class);
+                        HttpMethod.POST, entity, String.class);
 
         assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
     }
@@ -75,6 +75,26 @@ class TechRivoApplicationTests {
         assertThat(responseEntity.getBody().getItems()
                 .stream()
                 .filter(s -> s.equals("orange"))
+                .count()
+        ).isEqualTo(1);
+    }
+
+
+    @Test
+    public void transformationSnakeShouldReturnCamelCase() {
+        Transformation transformation = Transformation
+                .builder()
+                .name("post request")
+                .items(List.of("orange_blue", "orange_red", "apple", "banana"))
+                .build();
+
+        ResponseEntity<Transformation> responseEntity = restTemplate
+                .postForEntity("http://localhost:" + port + "/transformation",
+                        transformation, Transformation.class);
+
+        assertThat(responseEntity.getBody().getItems()
+                .stream()
+                .filter(s -> s.equals("orangeBlue"))
                 .count()
         ).isEqualTo(1);
     }

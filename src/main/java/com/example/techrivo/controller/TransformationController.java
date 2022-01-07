@@ -17,7 +17,7 @@ public class TransformationController {
 
     @PostMapping("/transformation")
     public Transformation transformation(@RequestBody @Validated Transformation transformation) {
-        return transformationService.removeDuplicates(transformation);
+        return transformationService.transform(transformation);
     }
 
 }

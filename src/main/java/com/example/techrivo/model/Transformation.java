@@ -10,6 +10,6 @@ import java.util.List;
 @Builder
 public class Transformation {
     private String name;
-    private List<@Pattern(regexp = "[a-zA-Z]+") String> items;
+    private List<@Pattern(regexp = "[a-zA-Z_]+") String> items;
     private Long timestamp;
 }
